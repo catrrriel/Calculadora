@@ -32,11 +32,31 @@ BtnReset.addEventListener("click", (e) => {
 });
 
 BtnEqual.addEventListener("click", (e) => {
-  try {
-    Result.textContent = eval(expression);
-  } catch {
-    Result.textContent = "Vos no sabes usar una calculadora";
-  } finally {
-    expression = eval(expression);
-  }
+  let potencia = [...expression.split("^")];
+  let raiz = [...expression.split("√")];
+
+  if (potencia.length == 2) {
+    Result.textContent = pow(potencia[0], potencia[1]);
+  } else if (raiz.length == 2) {
+    Result.textContent = sqrt(raiz[1], raiz[0]);
+  } else
+    try {
+      Result.textContent = eval(expression);
+      expression = eval(expression);
+    } catch {
+      expression = " ";
+      Result.textContent = "Vos no sabes usar una calculadora";
+    }
 });
+
+const pow = (n, p) => {
+  let res = 1;
+  for (let i = 0; i < p; i++) {
+    res = res * n;
+  }
+  return res;
+};
+
+const sqrt = (n, s) => {
+  return Math.pow(n, 1 / s);
+};
